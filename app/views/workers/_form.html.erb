@@ -1,0 +1,45 @@
+<%= form_for(@worker.with_blank_appointment) do |f| %>
+  <% if @worker.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@worker.errors.count, "error") %> prohibited this worker from being saved:</h2>
+
+      <ul>
+      <% @worker.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :start_time %><br>
+    <%= f.time_select :start_time %>
+  </div>
+  <div class="field">
+    <%= f.label :end_time %><br>
+    <%= f.time_select :end_time %>
+  </div>
+  <h4> Create Appointments </h4>
+  <fieldset>
+    <%= f.fields_for :appointments do |builder| %>
+      <%= builder.label :title %>
+      <%= builder.text_field :title %>
+      <%= builder.label :start_time %>
+      <%= builder.time_select :start_time %>
+      <%= builder.label :end_time %>
+      <%= builder.time_select :end_time %>
+      <%= builder.label :appointment_date %>
+      <%= builder.date_select :appointment_date %>
+      <%= builder.label :description %>
+      <%= builder.text_area :description %>
+  <% end %>
+
+  </fieldset>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

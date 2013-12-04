@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_time: 2013-12-02 16:31:02
+  end_time: 2013-12-02 16:31:02
+  slot_minutes: 2013-12-02 16:31:02
+
+two:
+  start_time: 2013-12-02 16:31:02
+  end_time: 2013-12-02 16:31:02
+  slot_minutes: 2013-12-02 16:31:02

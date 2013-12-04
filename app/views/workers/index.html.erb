@@ -1,0 +1,193 @@
+<!--
+<h1>Listing workers</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>End time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%# @workers.each do |worker| %>
+      <tr>
+        <td><%#= worker.start_time %></td>
+        <td><%#= worker.end_time %></td>
+        <td><%#= link_to 'Show', worker %></td>
+        <td><%#= link_to 'Edit', edit_worker_path(worker) %></td>
+        <td><%#= link_to 'Destroy', worker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <%# end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to 'New Worker', new_worker_path %>
+-->
+ <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<!--<button type="button" id="addevent" class="btn btn-default">Add Events</button>-->
+
+<table id="timesheet" class="table table-bordered">
+<thead>
+  <tr>
+    <th style="width: 10%"> TimeLine </th>
+    
+     <% @workers.each do |worker|%>
+
+      <th style="width: 10%" id="col-<%= worker.id%>"><%= worker.name%></th>
+    <%end%>
+   
+</thead>  
+<tbody>   
+<% while @end_time > @start_time %>     
+<tr class="row-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>">
+      <td style="width: 10%">
+        <%= @start_time %>
+          <% @start_time=(Time.parse(@start_time) + 30.minutes).strftime("%H:%M %p")%>
+      </td>
+
+
+      <% @workers.each do |worker|%>
+      <td  style="width: 10%" class="emp<%= worker.id%>-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>"></td>
+    <%end%>
+      
+</tr>
+<% end %>
+
+</tr>  
+
+</tbody>  
+</table> 
+
+<style>
+.event
+{
+background-color: yellow;
+border-right:2px solid black;
+border-left:2px solid black;
+width:90%;
+text-align:center;
+
+
+}
+.timeslots
+{
+text-align:center !important;
+}
+
+#test{
+  position:absolute;
+  background-color: #FFFFCC;
+  border-radius: 3px;
+  opacity:1;
+  border:2px solid black;
+  border-radius: 13px;
+
+  }
+td{
+  boder:1px solid black;
+}
+</style>
+<script>
+
+
+
+$(document).ready(function()
+{
+ var event_index=0;
+$.ajax({
+            type: "GET",        
+            url:"/workers",
+            dataType: "json",
+            success:function(result){
+           alert('len is '+result.length);
+           
+          for(i=0;i<result.length;i++)
+          {
+                 for(j=0;j<result[i].length;j++)
+                 {
+                 
+                  
+                  //alert('after formating '+gettime(result[i][j].end_time));
+                  var timeid=gettime(result[i][j].start_time);
+                  var endtime=gettime(result[i][j].end_time);
+                  //alert('tme id is '+timeid+',type is '+$.type(timeid));
+                  var s_time=parseInt(getHour(timeid));
+                  var e_time=parseInt(getHour(endtime));
+                 // alert('duration is '+(e_time-s_time));
+
+
+                  //if(duration>0)
+
+
+
+                  var h=$('.row-'+timeid).height();
+                 // $('.emp'+result[i][j].worker_id+'-'+timeid).append("<div class='event ui-draggable' style='height:"+h+"px '>"+result[i][j].title+" </div>");
+                   var prev_row=$('#timesheet  .row-'+timeid).prevAll().length;
+                  //alert('for eveent '+result[i][j].title+' ,count is '+ $('#timesheet  .row-'+timeid).prevAll().length);
+                  var topval=prev_row*h;
+                  var percolumn=(100/(result.length+1));
+                  var leftval=(i+1)*percolumn;
+                  var widthval=percolumn;
+                  var calduration=4*2;
+                  var heightval=calduration*h;
+                 // alert('j is '+j+', prev is '+prev_row +', and tot is '+result.length+1+' , leftval is '+leftval);
+                  
+
+                  $('body').append("<div id='test' class='draggable ui-widget-content' style='z-index:"+event_index+";height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'>colour"+result[i][j].title+"</div>");
+
+                  event_index=event_index+1;
+                // alert('width is '+$('.emp1-04-00').width());
+                 $( ".draggable" ).draggable();
+               }
+
+          }
+           //alert(result[2][0].worker_id);
+    
+  }});
+function getHour(str)
+{
+         //  alert('working on '+str);
+          var gothour = str.substring(0, str.lastIndexOf("-"));
+         return gothour;
+
+
+}
+function gettime(str)
+{
+                  //alert('working on '+str);
+                  var last = str.substring(str.lastIndexOf("T") + 1, str.length);
+                  var finale = last.substring(0, last.lastIndexOf(":"));
+                  var got=finale.replace(':', '-');
+                  return got;
+    
+
+
+}
+
+$('#addevent').click(function(){
+alert('Add Event clicked');
+
+var h=$('.empanam-01').height();
+
+$('.empanam-03-06').append("<div class='event ui-draggable' style='height:"+h+"px '>Event </div>");
+for(i=0;i<=3;i++)
+{
+
+
+}
+
+
+
+});
+
+});
+
+
+
+</script>

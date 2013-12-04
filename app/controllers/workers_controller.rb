@@ -5,8 +5,10 @@ class WorkersController < ApplicationController
   # GET /workers.json
   def index
     @workers = Worker.all
-    @start_time = @workers.order(:start_time).first.start_time.strftime("%H:%M")
-    @end_time = @workers.order(:end_time).last.end_time.strftime("%H:%M")
+    if @workers
+      @start_time = @workers.order(:start_time).first.start_time.strftime("%H:%M") 
+      @end_time = @workers.order(:end_time).last.end_time.strftime("%H:%M")
+    end
     @data=[]
     @workers.each do |a|
       @data<<a.appointments

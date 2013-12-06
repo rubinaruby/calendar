@@ -1,6 +1,6 @@
 class Appointment < ActiveRecord::Base
 	belongs_to :worker
-	before_create :event_duration
+	#before_create :event_duration
 	
 	validates :title, presence: true
 
@@ -22,9 +22,9 @@ class Appointment < ActiveRecord::Base
       !self.appointment_date.blank? and Date.parse(self.appointment_date.to_s) < Date.today
   end	
 	
-	private
+	# private
 
-	def event_duration
-		self.duration_time = self.end_time - self.start_time
-	end	
+	# def event_duration
+	# 	self.duration_time = self.end_time - self.start_time
+	# end	
 end

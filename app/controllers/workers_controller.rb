@@ -4,6 +4,7 @@ class WorkersController < ApplicationController
   # GET /workers
   # GET /workers.json
   def index
+    @appointment = Appointment.new
     @workers = Worker.all
     if @workers
       @start_time = @workers.order(:start_time).first.start_time.strftime("%H:%M") 

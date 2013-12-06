@@ -1,5 +1,6 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+ 
 
   # GET /appointments
   # GET /appointments.json
@@ -44,13 +45,17 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       if @appointment.update(appointment_params)
         format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
+        format.js
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
+        format.js
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end
   end
+
+ 
 
   # DELETE /appointments/1
   # DELETE /appointments/1.json

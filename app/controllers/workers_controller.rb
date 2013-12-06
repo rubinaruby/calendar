@@ -6,10 +6,12 @@ class WorkersController < ApplicationController
   def index
     @appointment = Appointment.new
     @workers = Worker.all
-    if @workers
+    if !@workers.blank?
       @start_time = @workers.order(:start_time).first.start_time.strftime("%H:%M") 
       @end_time = @workers.order(:end_time).last.end_time.strftime("%H:%M")
-    end
+    else
+      p "so create the worker"
+    end  
     @data=[]
     @workers.each do |a|
       @data<<a.appointments

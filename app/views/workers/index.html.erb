@@ -43,7 +43,8 @@
     <%end%>
    
 </thead>  
-<tbody>   
+<tbody>
+<% if @start_time %>   
 <% while @end_time > @start_time %>     
 <tr class="row-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>">
       <td style="width: 10%">
@@ -58,6 +59,9 @@
       
 </tr>
 <% end %>
+<%else%>
+<p> Create worker </p>
+<%end%>
 
 </tr>  
 

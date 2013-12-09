@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jqueryMobile
+//= require jquery.mobile
 
 //= require twitter/bootstrap
 //= require turbolinks

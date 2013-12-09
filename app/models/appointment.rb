@@ -2,15 +2,15 @@ class Appointment < ActiveRecord::Base
 	belongs_to :worker
 	#before_create :event_duration
 	
-	validates :title, presence: true
+#	validates :title, presence: true
 
-	validates :start_time, :presence => { :message => "must be a valid date/time" }
-  	validates :end_time, :presence => {:message => "must be a valid date/time"}
-  	validate :start_must_be_before_end_time
+#	validates :start_time, :presence => { :message => "must be a valid date/time" }
+ # 	validates :end_time, :presence => {:message => "must be a valid date/time"}
+  #	validate :start_must_be_before_end_time
 
-  	validate :appointment_date_cannot_be_in_the_past
+  #	validate :appointment_date_cannot_be_in_the_past
 
-  	validates :description, presence: true
+  #	validates :description, presence: true
     
   def start_must_be_before_end_time
     errors.add(:start_time, "must be before end time") unless

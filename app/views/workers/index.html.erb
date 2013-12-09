@@ -45,6 +45,7 @@
 </thead>  
 <tbody>
 <% if @start_time %>   
+<% cnt=1 %>
 <% while @end_time > @start_time %>     
 <tr class="row-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>">
       <td style="width: 10%">
@@ -52,14 +53,17 @@
           <% @start_time=(Time.parse(@start_time) + 30.minutes).strftime("%H:%M %p")%>
       </td>
 
-
+      
       <% @workers.each do |worker|%>
-      <td  style="width: 10%" class="contain_row" id="emp<%= worker.id%>-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>"></td>
+      <td  style="width: 10%" data-value="<%= worker.id %>-<%= cnt %>" class="ui-droppable contain_row" id="emp<%= worker.id%>-<%= (Time.parse(@start_time)- 30.minutes).strftime("%H-%M") %>"></td>
     <%end%>
       
 </tr>
+<% cnt+=1 %>
 <% end %>
+
 <%else%>
+
 <p> Create worker </p>
 <%end%>
 
@@ -107,11 +111,14 @@ td{
 
 $(document).ready(function()
 {
+  //alert('document load');
  var event_index=0;
  var slotHeight=$('tbody tr').height();
+
 renderCalendar();
 function renderCalendar()
 {
+
 $.ajax({
             type: "GET",        
             url:"/workers",
@@ -125,7 +132,7 @@ $.ajax({
                  {
                  
                   
-                  //alert('after formating '+gettime(result[i][j].end_time));
+                  //alert('after formating '+result[i][j].title);
                   var timeid=gettime(result[i][j].start_time);
                   var endtime=gettime(result[i][j].end_time);
                   var s_time=parseInt(getHour(timeid));
@@ -159,8 +166,25 @@ $.ajax({
 
 
                   // alert('j is '+j+', prev is '+prev_row +', and tot is '+result.length+1+' , leftval is '+leftval);
-                  $('#emp'+result[i][j].worker_id+'-'+timeid).append("<div id='"+result[i][j].id+"-"+difference+"' class='allevents  draggable resizable ui-widget-content' style='height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'><span id='"+result[i][j].title+"' class='event-tile'></span> "+result[i][j].title+"</div>");
+                  $('#emp'+result[i][j].worker_id+'-'+timeid).append("<div id='"+result[i][j].id+"-"+difference+"' class='allevents  draggable  ui-widget-content' style='height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'><span id='"+result[i][j].title+"' class='event-tile'></span> "+result[i][j].title+"</div>");
                   
+
+                   var rownum = parseInt(fetchNum($('#emp'+result[i][j].worker_id+'-'+timeid).data('value')));
+                   //alert('index is '+$('#emp'+result[i][j].worker_id+'-'+timeid).index());
+                   
+                   //alert('row no is '+rownum+',no. of slots '+no_slot);
+                   if(no_slot>1)
+                   {
+                   for(z=0;z<no_slot;z++)
+                       {
+                        $("[data-value~='"+result[i][j].worker_id+"-"+rownum+"']").droppable('option','disabled','true');
+                        // alert('for loop'+ $("[data-value~='4-9']").length);
+
+
+                       
+                       rownum=rownum+1;
+                      }
+                   }
 
                   //$('body').append("<div id='test' class='draggable ui-widget-content' style='z-index:"+event_index+";height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'>colour"+result[i][j].title+"</div>");
 
@@ -168,21 +192,28 @@ $.ajax({
                
                  $( ".draggable" ).draggable({  revert: 'invalid'});
                  $( ".resizable" ).resizable();
+
+                
+
                 }
 
           }
            //alert(result[2][0].worker_id);
     
   }});
+
+
 }
+
 dragObj = $('#timesheet td');
-$( dragObj ).droppable({
+ $( '.ui-droppable' ).droppable({
    accept: '.draggable',
    greedy: true,
    tolerance: 'pointer',
    hoverClass:'accepting_drops',
+  
       drop: function( event, ui ) {
-
+    
        //alert('drop'+event.target.id);
        var appointment_div=$(ui.draggable).attr('id');
        //alert('appointments is '+appointment_div);
@@ -198,9 +229,7 @@ $( dragObj ).droppable({
      var app_diff=getDifferenceFromRow(appointment_div);
     //alert('emp id is '+getEmpIDFromRow(event.target.id));
      updateEvent(getEmpIDFromRow(event.target.id),getTimeFromRow(event.target.id),app_id,app_diff);
-     
-
-
+    
        //$(this).html('droped here');
        /*$(clone).draggable({ containment: 'parent' });
      
@@ -227,9 +256,13 @@ function updateEvent(empid,utime,apid,app_diff)
 
 var end_hour=parseInt(new_end_time_in_min/60);
 var end_mins=parseInt(new_end_time_in_min%60);
+if(end_mins<10)
+end_mins="0"+end_mins;
+if(end_hour<10)
+end_hour="0"+end_hour;
 var new_end_hour=end_hour+':'+end_mins+':00';
-utime= utime+":00"+
-//alert('new End Time is '+new_end_hour);
+var new_start_hour= utime.replace('-',':')+":00";
+//alert('utime: '+new_start_hour+"new end hour "+new_end_hour);
 
 
 
@@ -240,20 +273,20 @@ $.ajax({
             data : {
             appointment: {
                 worker_id: empid,
-                start_time: "2000-01-01 "+utime.replace('-',':'),
-                end_time: "2000-01-01 "+new_end_hour,
+                start_time: "2000-01-01 "+new_start_hour,
+                end_time: "2000-01-01 "+new_end_hour
                 //description: ""
               }
             },
             success:function(result){
+               clear_event();                
+               renderCalendar();
 
               //alert('xxxx');
             }
 
         });    
-  clear_event();
-  renderCalendar();
-
+ 
 
 
 
@@ -274,6 +307,11 @@ $('#addevent').click(function(){
 });
 
 });
+function fetchNum(str)
+{
+var gotnum = str.substring(str.lastIndexOf("-")+1,str.length);
+         return gotnum;
+}
 function getHour(str)
 {
          //  alert('working on '+str);
@@ -309,7 +347,7 @@ return getrowtime;
 }
 function getEmpIDFromRow(str)
 {
-  alert('emp id '+str);
+ // alert('emp id '+str);
   var empfullid=str.substring(0,str.indexOf("-") );
   var empid=empfullid.substring(3,empfullid.length);
   return empid;

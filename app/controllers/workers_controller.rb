@@ -14,7 +14,7 @@ class WorkersController < ApplicationController
     end  
     @data=[]
     @workers.each do |a|
-      @data<<a.appointments
+      @data<<a.appointments.where(:appointment_date=>Time.now.strftime('%Y-%m-%d'))
       #@data[a.name]<<a.worker_id
     end
      respond_to do |format|  

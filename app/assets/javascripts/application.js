@@ -12,7 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.mobile
 
+//= require jquery.ui.all
+
+//= require jquery.ui.touch-punch
+
+//= require dayResource-Calendar
 //= require twitter/bootstrap
 //= require turbolinks
+

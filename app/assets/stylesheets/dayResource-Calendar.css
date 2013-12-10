@@ -1,0 +1,35 @@
+.event
+{
+background-color: yellow;
+border-right:2px solid black;
+border-left:2px solid black;
+width:90%;
+text-align:center;
+
+
+}
+.timeslots
+{
+text-align:center !important;
+}
+
+.allevents{
+  position:absolute;
+  background-color: #FFFFCC;
+  opacity:1;
+  border:2px solid black;
+  border-radius: 13px;
+
+  }
+td{
+  boder:1px solid black;
+}
+.accepting_drops {
+   background: gray;   
+}
+.event-title
+{
+	display: block;
+	background-color: #E9E7B2;
+	  border-radius: 13px;
+}

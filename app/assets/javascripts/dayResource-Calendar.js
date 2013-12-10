@@ -1,13 +1,13 @@
 $(document).ready(function()
 {
-  //alert('document load');
+  alert('document load');
  var event_index=0;
  var slotHeight=$('tbody tr').height();
 
 renderCalendar();
 function renderCalendar()
 {
-
+alert('function call for render');
 $.ajax({
             type: "GET",        
             url:"/workers",

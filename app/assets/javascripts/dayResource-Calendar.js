@@ -21,7 +21,7 @@ $.ajax({
                  {
                  
                   
-                  //alert('after formating '+result[i][j].title);
+                  alert('appointments title is '+result[i][j].title);
                   var timeid=gettime(result[i][j].start_time);
                   var endtime=gettime(result[i][j].end_time);
                   var s_time=parseInt(getHour(timeid));
@@ -156,8 +156,7 @@ $('#addevent').click(function(){
 });
 
  $( "#appointment_form" ).submit(function( event ) {
-  alert( "Handler for .submit() called." );
-  event.preventDefault();
+
 });
 });
 function fetchNum(str)

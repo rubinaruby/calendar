@@ -1,13 +1,13 @@
 $(document).ready(function()
 {
-  alert('document load');
+  //alert('document load');
  var event_index=0;
  var slotHeight=$('tbody tr').height();
 
 renderCalendar();
 function renderCalendar()
 {
-alert('function call for render');
+
 $.ajax({
             type: "GET",        
             url:"/workers",
@@ -21,7 +21,7 @@ $.ajax({
                  {
                  
                   
-                  alert('appointments title is '+result[i][j].title);
+                  //alert('appointments title is '+result[i][j].title);
                   var timeid=gettime(result[i][j].start_time);
                   var endtime=gettime(result[i][j].end_time);
                   var s_time=parseInt(getHour(timeid));
@@ -236,6 +236,11 @@ $(document).on('mouseenter','.allevents',function()
 {
 
 $(this).css('z-index','100');
+});
+$(document).on('click','.allevents',function(e)
+{
+
+e.stopPropagation();
 });
 $(document).on('mouseleave','.allevents',function()
 {

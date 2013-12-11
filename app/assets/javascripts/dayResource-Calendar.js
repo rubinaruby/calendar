@@ -55,7 +55,7 @@ $.ajax({
 
 
                   // alert('j is '+j+', prev is '+prev_row +', and tot is '+result.length+1+' , leftval is '+leftval);
-                  $('#emp'+result[i][j].worker_id+'-'+timeid).append("<div id='"+result[i][j].id+"-"+difference+"' class='allevents  draggable  ui-widget-content' style='height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'><p id='"+result[i][j].title+"' class='event-title'> "+result[i][j].title+"</p></div>");
+                  $('#emp'+result[i][j].worker_id+'-'+timeid).append("<div id='"+result[i][j].id+"-"+difference+"' class='allevents  draggable  ui-widget-content' style='height:"+heightval+"px;width:"+percolumn+"%;top:"+topval+"px;left:"+leftval+"%;'><p id='"+result[i][j].title+"' class='event-title'> "+result[i][j].title+"</p>Start Time:"+gettime(result[i][j].start_time)+"<br>End Time:"+gettime(result[i][j].end_time)+"</div>");
                   
 
                    var rownum = parseInt(fetchNum($('#emp'+result[i][j].worker_id+'-'+timeid).data('value')));

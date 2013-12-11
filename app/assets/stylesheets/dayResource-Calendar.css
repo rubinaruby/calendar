@@ -1,8 +1,8 @@
 .event
 {
 background-color: yellow;
-border-right:2px solid black;
-border-left:2px solid black;
+/*border-right:2px solid black;
+border-left:2px solid black;*/
 width:90%;
 text-align:center;
 
@@ -17,8 +17,8 @@ text-align:center !important;
   position:absolute;
   background-color: #FFFFCC !important;
   opacity:1;
-  border:2px solid black;
-  border-radius: 13px;
+  /*border:2px solid black;*/
+  /*border-radius: 13px;*/
 
   }
 td{
@@ -30,11 +30,14 @@ td{
 .event-title
 {
 	display: block;
-	background-color: #E9E7B2;
-	  border-radius: 13px;
+	background-color: #82C4EA;
+ /* border-bottom:1px solid black;
+  border-right:1px solid black;
+  border-left:1px solid black;*/
+  /*border-radius: 13px;*/
 }
 .ui-widget-content
 {
-background-color: #FFFFCC !important;
+background-color: #DDEEFF !important;
 background: url(''); 
 }
